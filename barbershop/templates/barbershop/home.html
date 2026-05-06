@@ -1,0 +1,53 @@
+{% extends 'barbershop/base.html' %}
+{% load static %}
+
+{% block content %}
+<section style="text-align: center; padding: 40px 0;">
+    <h2>Welcome to Vintage Barbershop</h2>
+    <p style="font-size: 1.2rem; max-width: 700px; margin: 20px auto;">Experience the timeless art of traditional barbering. Sharp cuts, hot towel shaves, and genuine conversation.</p>
+</section>
+
+<section>
+    <h3>Our Signature Services</h3>
+    <div class="card-grid">
+        {% for service in services %}
+            <div class="card">
+                <h3>{{ service.name }}</h3>
+                <p>💰 ${{ service.price }}</p>
+                <p>⏱️ {{ service.duration }} min</p>
+                <p>{{ service.description|truncatewords:15 }}</p>
+                <a href="{% url 'service_detail' service.id %}" class="btn" style="margin-top: 10px;">Details</a>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section>
+    <h3>Meet Our Masters</h3>
+    <div class="card-grid">
+        {% for master in masters %}
+            <div class="card">
+                <h3>{{ master.full_name }}</h3>
+                <p>✂️ {{ master.specialization }}</p>
+                <p>📞 {{ master.phone }}</p>
+                <a href="{% url 'master_detail' master.id %}" class="btn" style="margin-top: 10px;">View Profile</a>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section>
+    <h3>Latest Reviews</h3>
+    {% for review in reviews %}
+        <div class="card" style="margin-bottom: 15px;">
+            <strong>{{ review.author }}</strong> ★{{ review.rating }}<br>
+            "{{ review.text|truncatewords:20 }}"
+        </div>
+    {% endfor %}
+    <a href="{% url 'review_create' %}" class="btn">Leave a Review</a>
+</section>
+
+<section style="text-align: center; margin: 40px 0;">
+    <a href="{% url 'booking_create' %}" class="btn" style="font-size: 1.2rem; padding: 12px 35px;">Book Your Appointment Now →</a>
+</section>
+{% endblock %}

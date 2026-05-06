@@ -1,0 +1,31 @@
+{% extends 'barbershop/base.html' %}
+
+{% block content %}
+<div style="display: flex; flex-wrap: wrap; gap: 40px; margin: 40px 0;">
+    <div style="flex: 1; min-width: 250px;">
+        <h2>Visit Us</h2>
+        {% if contact %}
+            <p><strong>📍 Address:</strong><br>{{ contact.address }}</p>
+            <p><strong>📞 Phone:</strong><br>{{ contact.phone }}</p>
+            <p><strong>✉️ Email:</strong><br>{{ contact.email }}</p>
+            <p><strong>🕰️ Working Hours:</strong><br>{{ contact.work_hours }}</p>
+        {% else %}
+            <p>123 Vintage Avenue<br>Downtown City, DC 12345</p>
+            <p>📞 +1 (555) 123-4567</p>
+            <p>✉️ hello@vintagebarbershop.com</p>
+            <p>🕰️ Tue-Sat: 10am - 7pm<br>Sun-Mon: Closed</p>
+        {% endif %}
+    </div>
+    
+    <div style="flex: 2;">
+        <h2>Find Us</h2>
+        <div style="background: #d4c9b8; height: 300px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+            <p style="color: #2c2b28;">📍 Map placeholder —<br>123 Vintage Avenue, Downtown</p>
+        </div>
+    </div>
+</div>
+
+<div style="text-align: center; margin: 30px 0;">
+    <a href="{% url 'booking_create' %}" class="btn">Book an Appointment</a>
+</div>
+{% endblock %}

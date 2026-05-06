@@ -1,0 +1,26 @@
+{% extends 'barbershop/base.html' %}
+
+{% block content %}
+<h2>Our Master Barbers</h2>
+<p>Each with years of experience and a passion for the craft.</p>
+
+<div class="card-grid">
+    {% for master in masters %}
+        <div class="card">
+            <h3>{{ master.full_name }}</h3>
+            <p>✂️ {{ master.specialization }}</p>
+            <p>📞 {{ master.phone }}</p>
+            <p>{{ master.bio|truncatewords:15 }}</p>
+            <a href="{% url 'master_detail' master.id %}" class="btn">View Profile</a>
+        </div>
+    {% empty %}
+        <p>No masters available.</p>
+    {% endfor %}
+</div>
+
+{% if user.is_authenticated %}
+    <div style="margin-top: 20px;">
+        <a href="{% url 'master_create' %}" class="btn">+ Add New Master</a>
+    </div>
+{% endif %}
+{% endblock %}

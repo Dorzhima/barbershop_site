@@ -1,0 +1,26 @@
+{% extends 'barbershop/base.html' %}
+
+{% block content %}
+<h2>Our Services</h2>
+<p>Classic cuts, modern styles — always with attention to detail.</p>
+
+<div class="card-grid">
+    {% for service in services %}
+        <div class="card">
+            <h3>{{ service.name }}</h3>
+            <p>💰 Price: <strong>${{ service.price }}</strong></p>
+            <p>⏱️ Duration: {{ service.duration }} minutes</p>
+            <p>{{ service.description|truncatewords:20 }}</p>
+            <a href="{% url 'service_detail' service.id %}" class="btn">View Details</a>
+        </div>
+    {% empty %}
+        <p>No services available yet.</p>
+    {% endfor %}
+</div>
+
+{% if user.is_authenticated %}
+    <div style="margin-top: 20px;">
+        <a href="{% url 'service_create' %}" class="btn">+ Add New Service</a>
+    </div>
+{% endif %}
+{% endblock %}

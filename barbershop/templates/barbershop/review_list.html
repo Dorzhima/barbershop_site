@@ -1,0 +1,41 @@
+{% extends 'barbershop/base.html' %}
+
+{% block content %}
+<h2>Customer Reviews</h2>
+
+<div class="card-grid">
+    {% for review in reviews %}
+        <div class="card">
+            <strong>{{ review.author }}</strong> 
+            <span style="color: #c4a35a;">★{{ review.rating }}.0</span>
+            <p>"{{ review.text }}"</p>
+            <small>{{ review.created_at|date:"F d, Y" }}</small>
+            {% if user.is_authenticated %}
+                <div style="margin-top: 10px;">
+                    <a href="{% url 'review_delete' review.id %}" class="btn btn-danger" style="padding: 5px 10px;" onclick="return confirm('Delete review?')">Delete</a>
+                </div>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No reviews yet. Be the first to leave one!</p>
+    {% endfor %}
+</div>
+
+<div style="margin-top: 30px; text-align: center;">
+    <a href="{% url 'review_create' %}" class="btn">Leave Your Review</a>
+</div>
+
+{% if user.is_authenticated %}
+    <div style="margin-top: 20px;">
+        <h3>Pending Reviews (for moderation)</h3>
+        {% for review in reviews %}
+            {% if not review.is_published %}
+                <div class="card">
+                    {{ review.author }}: {{ review.text }}
+                    <a href="{% url 'review_publish' review.id %}" class="btn" style="padding: 5px 10px;">Publish</a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

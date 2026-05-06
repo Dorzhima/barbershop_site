@@ -1,0 +1,29 @@
+{% extends 'barbershop/base.html' %}
+
+{% block content %}
+<div class="card" style="max-width: 700px; margin: 0 auto;">
+    <h2>{{ master.full_name }}</h2>
+    <p><strong>Specialization:</strong> {{ master.specialization }}</p>
+    <p><strong>Phone:</strong> {{ master.phone }}</p>
+    <p><strong>Bio:</strong></p>
+    <p>{{ master.bio }}</p>
+    
+    <h3>Services offered:</h3>
+    <ul>
+        {% for service in master.services.all %}
+            <li>{{ service.name }} - ${{ service.price }}</li>
+        {% empty %}
+            <li>No services assigned yet.</li>
+        {% endfor %}
+    </ul>
+    
+    <div style="margin-top: 20px;">
+        <a href="{% url 'booking_create' %}" class="btn">Book with {{ master.full_name }}</a>
+        <a href="{% url 'master_list' %}" class="btn btn-secondary">← Back to Masters</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'master_edit' master.id %}" class="btn">✏️ Edit</a>
+            <a href="{% url 'master_delete' master.id %}" class="btn btn-danger" onclick="return confirm('Delete this master?')">🗑️ Delete</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'barbershop/base.html' %}
+
+{% block content %}
+<h2>All Bookings</h2>
+
+<div class="table-responsive">
+    <table>
+        <thead>
+            <tr>
+                <th>Client</th>
+                <th>Phone</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Master</th>
+                <th>Service</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.client_name }}</td>
+                <td>{{ booking.client_phone }}</td>
+                <td>{{ booking.date }}</td>
+                <td>{{ booking.time }}</td>
+                <td>{{ booking.master.full_name }}</td>
+                <td>{{ booking.service.name }}</td>
+                <td style="color: {% if booking.status == 'confirmed' %}green{% elif booking.status == 'cancelled' %}red{% else %}orange{% endif %};">
+                    {{ booking.get_status_display }}
+                </td>
+                <td>
+                    <a href="{% url 'booking_edit' booking.id %}" class="btn" style="padding: 5px 10px;">✏️</a>
+                    <a href="{% url 'booking_delete' booking.id %}" class="btn btn-danger" style="padding: 5px 10px;" onclick="return confirm('Delete?')">🗑️</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="8">No bookings yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

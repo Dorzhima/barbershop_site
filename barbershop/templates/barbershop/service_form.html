@@ -1,0 +1,21 @@
+{% extends 'barbershop/base.html' %}
+
+{% block content %}
+<div class="form-container">
+    <h2>{{ title }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <small style="color: #8b3a3a;">{{ field.errors }}</small>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn">Save</button>
+        <a href="{% url 'service_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
